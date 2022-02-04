@@ -36,7 +36,7 @@ pipeline {
         steps {
           echo "deploy to docker registry step"
         script {
-          docker.build registry:'${BUILD_NUMBER}'
+          docker.build registry + :'${BUILD_NUMBER}'
 	}
 	
          }
