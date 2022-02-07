@@ -14,6 +14,16 @@ pipeline {
    }
    
    stages {
+     stage ('Git clone') {
+        steps {
+          echo 'clone GIt repo'
+	  git branch: 'main', url: 'https://github.com/Cynthiacane-CC/devops-code1.git'
+
+	 }
+     
+     }
+
+	   
      stage ('Build') {
         steps {
           echo 'build step'
