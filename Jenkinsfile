@@ -6,12 +6,12 @@ pipeline {
      //git 'git'
      //jdk 'JAVA_HOME'
 
-   }
+         }
    environment {
      registry = 'cynthiacane20/devops-code1'
      dockerCrdentials = 'DockerUserID'
 
-   }
+               }
    
    stages {
      stage ('Git clone') {
@@ -19,9 +19,9 @@ pipeline {
           echo 'clone GIt repo'
 	  git branch: 'main', url: 'https://github.com/Cynthiacane-CC/devops-code1.git'
 
-	 }
+	          }
      
-     }
+            }
 
 	   
      stage ('Build') {
@@ -29,17 +29,17 @@ pipeline {
           echo 'build step'
 	  sh 'mvn clean install package' 
 
-	 }
+	          }
      
-     }
+           }
 
  stage ('Test') {
         steps {
           echo "test step"
           sh 'mvn test'
-         }
+              }
 
-     }
+           }
 
 
  stage ('CreateImage') {
@@ -47,14 +47,11 @@ pipeline {
           echo "deploy to docker registry step"
         script {
           docker.build registry + ":$BUILD_NUMBER"
-	}
+	           }
 	
-         }
+             }
 
-     }
-
-
-
+           }
  stage ('Deploy_Tomcat') {
         steps {
           echo "deploy to tomcat"
@@ -63,26 +60,14 @@ pipeline {
 
      }
 
-	   
- def remote = [:]
- remote.name = "Ansible"
- remote.host = "52.207.249.13"
- remote.allowAnyHosts = true
- Ansible {
-   withCredentials([usernamePassword(credentialsId: 'AnsibleUserID', passwordVariable: 'password', usernameVariable: 'userName')]) {
-   remote.user = userName
-   remote.password = password
-
-   stage('Deploy_k8s') {
-      steps {
-         echo "deploy to Kubernetes"
-      script{
-	 sshCommand remote: remote, command: "ansible-playbook /etc/ansible/kube.yml"
-             }
-           }
-        }
-      }
-    }   
+	      
+ stage ('Ansible Deploy') {
+        steps {
+          echo "deploy to kubernetes"
+           sh "ansible-playbook kube.yml -i /etc/ansible/hosts -- user AnsibleUserID"
+              } 
+            }
+       }   
+   
    }
-}
 
