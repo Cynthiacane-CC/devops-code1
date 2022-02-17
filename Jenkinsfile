@@ -66,7 +66,8 @@ pipeline {
 stage ('Deploy_k8s') {
            steps {
                script{
-                   def image_id = registry + ":$BUILD_NUMBER"
+		   echo "deploy to Kubernetes"
+                   //def image_id = registry + ":$BUILD_NUMBER"
                    sh "ansible-playbook /etc/ansible/kube.yml
                }
            }
