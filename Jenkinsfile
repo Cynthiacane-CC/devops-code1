@@ -55,7 +55,7 @@ pipeline {
  stage ('Deploy_Tomcat') {
         steps {
           echo "deploy to tomcat"
-          deploy adapters: [tomcat8(credentialsId: 'TomcatUserID', path: '', url: 'http://3.86.227.86:8080/')], contextPath: null, war: '**/*.war'
+          deploy adapters: [tomcat8(credentialsId: 'TomcatUserID', path: '', url: 'http://18.212.6.210:8080/')], contextPath: null, war: '**/*.war'
          }
 
      }
