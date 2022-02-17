@@ -80,9 +80,9 @@ pipeline {
 	 sshCommand remote: remote, command: "ansible-playbook /etc/ansible/kube.yml"
              }
            }
-       }
-    }
- }   
-
+        }
+      }
+    }   
+   }
 }
 
