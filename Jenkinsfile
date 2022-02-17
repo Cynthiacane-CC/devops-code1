@@ -63,20 +63,26 @@ pipeline {
 
      }
 
-stage ('Deploy_k8s') {
-           steps {
-               script{
-		   echo "deploy to Kubernetes"
-                   //def image_id = registry + ":$BUILD_NUMBER"
-                   sh "ansible-playbook /etc/ansible/kube.yml
-               }
+	   
+ def remote = [:]
+ remote.name = "Ansible"
+ remote.host = "52.207.249.13"
+ remote.allowAnyHosts = true
+ Ansible {
+   withCredentials([usernamePassword(credentialsId: 'AnsibleUserID', passwordVariable: 'password', usernameVariable: 'userName')]) {
+   remote.user = userName
+   remote.password = password
+
+   stage('Deploy_k8s') {
+      steps {
+         echo "deploy to Kubernetes"
+      script{
+	 sshCommand remote: remote, command: "ansible-playbook /etc/ansible/kube.yml"
+             }
            }
        }
-
-
-   }
-
-
+    }
+   
 
 }
 
