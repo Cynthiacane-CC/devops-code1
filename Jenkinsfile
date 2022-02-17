@@ -55,7 +55,7 @@ pipeline {
 
 
 
- stage ('Deploy') {
+ stage ('Deploy_Tomcat') {
         steps {
           echo "deploy to tomcat"
           deploy adapters: [tomcat8(credentialsId: 'TomcatUserID', path: '', url: 'http://3.86.227.86:8080/')], contextPath: null, war: '**/*.war'
@@ -63,7 +63,14 @@ pipeline {
 
      }
 
-
+stage ('Deploy_k8s') {
+           steps {
+               script{
+                   def image_id = registry + ":$BUILD_NUMBER"
+                   sh "ansible-playbook /etc/ansible/kube.yml
+               }
+           }
+       }
 
 
    }
