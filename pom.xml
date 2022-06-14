@@ -216,5 +216,11 @@
   <prerequisites>
     <maven>3.0.3</maven>
   </prerequisites>
-
+<distributionManagement>
+    <repository>
+        <id>central</id>
+        <name>ip-10-0-0-42.ec2.internal-releases</name>
+        <url>http://184.72.206.169:8082/artifactory/libs-release</url>
+    </repository>
+</distributionManagement>
 </project>
